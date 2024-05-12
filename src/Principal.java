@@ -3,6 +3,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.araf.desafioConversorDeMonedas.modelos.ConsultaConversionDeMoneda;
 import io.araf.desafioConversorDeMonedas.modelos.Moneda;
+import io.araf.desafioConversorDeMonedas.modelos.MonedaERA;
 
 import java.util.Scanner;
 
@@ -27,37 +28,42 @@ public class Principal {
                 6- Peso Colombiano ==> Dolar
                 7- Salir
                 
-                Elija una opcion válida: 
+                Elija una opcion válida:
                 **************************
                 """;
+        String base = "";
+        String target = "";
+        float base_value;
+        int opcion;
+
         while (true) {
             System.out.println(menu);
-            Moneda moneda = null;
-            int opcion = Integer.parseInt(lectura.nextLine());
+            opcion = Integer.parseInt(lectura.nextLine());
+
             switch (opcion) {
                 case 1:
-                    moneda = consulta.buscarMoneda("USD" , "ARS");
-                    System.out.println(gson.toJson(moneda));
+                    base = "USD";
+                    target = "ARS";
                     break;
                 case 2:
-                    moneda = consulta.buscarMoneda("ARS" , "USD");
-                    System.out.println(gson.toJson(moneda));
+                    base = "ARS";
+                    target = "USD";
                     break;
                 case 3:
-                    moneda = consulta.buscarMoneda("USD" , "BRL");
-                    System.out.println(gson.toJson(moneda));
+                    base = "USD";
+                    target = "BRL";
                     break;
                 case 4:
-                    moneda = consulta.buscarMoneda("BRL" , "USD");
-                    System.out.println(gson.toJson(moneda));
+                    base = "BRL";
+                    target = "USD";
                     break;
                 case 5:
-                    moneda = consulta.buscarMoneda("USD" , "COP");
-                    System.out.println(gson.toJson(moneda));
+                    base = "USD";
+                    target = "COP";
                     break;
                 case 6:
-                    moneda = consulta.buscarMoneda("COP" , "USD");
-                    System.out.println(gson.toJson(moneda));
+                    base = "COP";
+                    target = "USD";
                     break;
                 case 7:
                     System.out.println("La aplicación está finalizando");
@@ -67,8 +73,13 @@ public class Principal {
                     break;
             }
 
+            System.out.println("Ingrese el monto que desea convertir: ");
+            base_value = lectura.nextFloat();
+            MonedaERA monedaERA = consulta.buscarMoneda( base, target);
+
+            Moneda moneda = new Moneda(monedaERA, base_value);
+            moneda.mostrar();
+
         }
-
-
     }
 }
