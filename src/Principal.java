@@ -1,19 +1,15 @@
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import io.araf.desafioConversorDeMonedas.modelos.ConsultaConversionDeMoneda;
+import io.araf.desafioConversorDeMonedas.modelos.GeneradorDeArchivos;
 import io.araf.desafioConversorDeMonedas.modelos.Moneda;
 import io.araf.desafioConversorDeMonedas.modelos.MonedaERA;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Principal {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner lectura = new Scanner(System.in);
-        Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
-                .setPrettyPrinting()
-                .create();
         ConsultaConversionDeMoneda consulta = new ConsultaConversionDeMoneda();
 
         // BRL , ARS, USD, COP
@@ -31,14 +27,17 @@ public class Principal {
                 Elija una opcion válida:
                 **************************
                 """;
-        String base = "";
-        String target = "";
+        String base;
+        String target;
         float base_value;
         int opcion;
+        ArrayList<Moneda> monedaList = new ArrayList<>();
+        GeneradorDeArchivos archivo = new GeneradorDeArchivos();
 
         while (true) {
             System.out.println(menu);
-            opcion = Integer.parseInt(lectura.nextLine());
+            opcion = lectura.nextInt();
+            lectura.nextLine();
 
             switch (opcion) {
                 case 1:
@@ -67,19 +66,22 @@ public class Principal {
                     break;
                 case 7:
                     System.out.println("La aplicación está finalizando");
+                    lectura.close();
+                    archivo.guardarJson(monedaList);
                     return;
                 default:
                     System.out.println("Opción invalida.");
-                    break;
+                    continue;
             }
 
             System.out.println("Ingrese el monto que desea convertir: ");
             base_value = lectura.nextFloat();
-            MonedaERA monedaERA = consulta.buscarMoneda( base, target);
+            lectura.nextLine();
 
+            MonedaERA monedaERA = consulta.buscarMoneda( base, target);
             Moneda moneda = new Moneda(monedaERA, base_value);
             moneda.mostrar();
-
+            monedaList.add(moneda);
         }
     }
 }

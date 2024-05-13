@@ -1,10 +1,15 @@
 package io.araf.desafioConversorDeMonedas.modelos;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Moneda {
+    private String time;
     private String base_code;
     private String target_code;
     private float base_value;
     private float conversion_value;
+    private float result;
 
     public Moneda(MonedaERA monedaERA, float base_value) {
         this.base_code = monedaERA.base_code();
@@ -13,18 +18,26 @@ public class Moneda {
         this.base_value = base_value;
     }
 
-    public float calcular() {
-        return conversion_value * base_value;
+    private void calcular() {
+        result = conversion_value * base_value;
+    }
+
+    private void time(){
+        LocalDateTime ahora = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        this.time = ahora.format(formatter);
     }
 
     public void mostrar () {
+        calcular();
+        time();
         String resultado = """
                 ==============================================================
-                
-                El valor %f [%s] corresponde al valor final de ==> %f [%s]
+                %s
+                El valor %.4f [%s] corresponde al valor final de ==> %.4f [%s]
                 
                 ==============================================================
-                """.formatted(base_value, base_code, this.calcular(), target_code);
+                """.formatted(time, base_value, base_code, result, target_code);
         System.out.println(resultado);
     }
 }

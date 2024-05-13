@@ -1,0 +1,26 @@
+[
+{
+  "time": "13-05-2024 15:14:23",
+  "base_code": "USD",
+  "target_code": "ARS",
+  "base_value": 2.0,
+  "conversion_value": 864.75,
+  "result": 1729.5
+},
+{
+  "time": "13-05-2024 15:14:28",
+  "base_code": "ARS",
+  "target_code": "USD",
+  "base_value": 3334.0,
+  "conversion_value": 0.001156,
+  "result": 3.8541038
+},
+{
+  "time": "13-05-2024 15:14:34",
+  "base_code": "BRL",
+  "target_code": "USD",
+  "base_value": 3322.0,
+  "conversion_value": 0.1946,
+  "result": 646.4612
+}
+]
